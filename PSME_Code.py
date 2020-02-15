@@ -26,6 +26,7 @@ items = 0;
 remarks = "black";
 state = [];
 cat = [];
+percentage = 0;
 
 
 class choices:
@@ -50,10 +51,11 @@ class choices:
 
     def __init__(self, window, text):
         def rightAnswer(event):
-            global score, items, remarks;
+            global score, items, remarks, percentage;
             print("User has chosen the right answer");
             score += 1;
             items += 1;
+            percentage = int((score / items) * 100);
             remarks = "green";
             mainWindow();
 
@@ -63,9 +65,10 @@ class choices:
         self.bind("<Button-1>", rightAnswer);
 
     def wrongAnswer():
-        global items, remarks;
+        global items, remarks, score, percentage;
         print("WRONG, BRUH");
         items += 1;
+        percentage = int((score / items) * 100);
         remarks = "red";
         mainWindow();
 
@@ -185,7 +188,7 @@ def mainWindow():
     refresh = Button(menuFrame, text = "Refresh", command = mainWindow);
     refresh.grid(row = 0, column = 1, padx = 1);
 
-    grade = Label(menuFrame, text = ("Score: " + str(score) + " / " + str(items)), bg = remarks, fg = "white");
+    grade = Label(menuFrame, text = ("Score: " + str(score) + " / " + str(items) + "   (" + str(percentage) + "%)"), bg = remarks, fg = "white");
     grade.grid(row = 0, column = 2, sticky = W+E);
 
     update();
